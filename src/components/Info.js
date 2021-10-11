@@ -5,9 +5,65 @@ import { GoRepo, GoGist } from 'react-icons/go';
 import { FiUsers, FiUserPlus } from 'react-icons/fi';
 
 const UserInfo = () => {
-  return <h2>user info component</h2>;
+  const data = React.useContext(GithubContext);
+  const { githubUser } = data;
+  const { public_repos, followers, following, public_gists } = githubUser;
+  const items = [
+    {
+      id: 1,
+      icon: <GoRepo />,
+      label: 'repos',
+      value: public_repos,
+      color: 'pink',
+    },
+    {
+      id: 2,
+      icon: <FiUsers className='icon' />,
+      label: 'followers',
+      value: followers,
+      color: 'green',
+    },
+    {
+      id: 3,
+      icon: <FiUserPlus className='icon' />,
+      label: 'following',
+      value: following,
+      color: 'purple',
+    },
+    {
+      id: 4,
+      icon: <GoGist className='icon' />,
+      label: 'gists',
+      value: public_gists,
+      color: 'yellow',
+    },
+  ];
+  return (
+    <section>
+      <Wrapper className='section-center'>
+        {items.map((item) => {
+          return (
+            <p>
+              <Item key={item.id} {...item} />
+            </p>
+          );
+        })}
+      </Wrapper>
+    </section>
+  );
 };
 
+const Item = ({ icon, label, value, color }) => {
+  return (
+    <article className='item'>
+      {icon}
+      <div>
+        <h3>{value}</h3>
+        <p>{label}</p>
+      </div>
+    </article>
+  );
+};
 const Wrapper = styled.section`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
